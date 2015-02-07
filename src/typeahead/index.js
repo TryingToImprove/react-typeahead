@@ -126,6 +126,9 @@ var Typeahead = React.createClass({
     this.setState({visible: this.getOptionsForValue(value, this.state.options),
                    selection: null,
                    entryValue: value});
+      
+    if (typeof(this.props.onChange) === "function")
+        this.props.onChange(value);
   },
 
   _onEnter: function(event) {
@@ -185,7 +188,7 @@ var Typeahead = React.createClass({
     }
     classes[this.props.className] = !!this.props.className;
     var classList = React.addons.classSet(classes);
-console.log(this.state.options);
+      
     return (
       <div className={classList}>
         <input ref="entry" type="text"
