@@ -20389,6 +20389,18 @@ var Typeahead = React.createClass({displayName: "Typeahead",
       // A valid typeahead value
       selection: null
     };
+  }, 
+  
+  componentWillReceiveProps: function(nextProps) {
+    value = self.state.entryValue;
+    if (self.props.defaultValue != self.state.entryValue)
+      value = nextProps.defaultValue ;
+
+    this.setState({
+      options: nextProps.options,
+      entryValue: value,
+      visible: this.getOptionsForValue(value, nextProps.options)
+    });
   },
 
   getOptionsForValue: function(value, options) {     
