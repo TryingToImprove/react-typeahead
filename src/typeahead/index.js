@@ -54,10 +54,12 @@ var Typeahead = React.createClass({
   
   componentWillReceiveProps: function(nextProps) {
     var value = this.state.entryValue;
-      
+
+      console.log("TEST");      
     if (this.props.defaultValue != this.state.entryValue)
       value = nextProps.defaultValue;
 
+      
     this.setState({
       options: nextProps.options,
       entryValue: value,
@@ -188,7 +190,7 @@ var Typeahead = React.createClass({
     }
     classes[this.props.className] = !!this.props.className;
     var classList = React.addons.classSet(classes);
-
+console.log(this.state.options);
     return (
       <div className={classList}>
         <input ref="entry" type="text"

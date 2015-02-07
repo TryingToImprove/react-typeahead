@@ -46,6 +46,14 @@
     <script type="text/jsx">
 /** @jsx React.DOM */
 
+function createRandom(){
+    var test = [];
+    for(var i = 0; i < 10; i++){
+        test.push("" + Math.random()*1000)
+    }
+    return test;
+}
+
 (function(){
   var req = new XMLHttpRequest();
   req.open('GET', 'files.txt');
@@ -54,18 +62,33 @@
     if (req.status !== 200) {
       throw new Error('nope');
     }
+    
+    window.items = req.response.split('\n');
+
+	var TestComponent = React.createClass({displayName: "TestComponent",
+        getInitialState: function() {
+        	return { items: window.items}
+        },
+        change: function(){
+        	this.setState({ items: createRandom() });
+        },
+    	render: function() {
+        	return React.createElement(ReactTypeahead.Typeahead, {
+              defaultValue: "src", 
+              options: this.state.items, 
+              className: "topcoat-list", 
+              onKeyDown: this.change, 
+              customClasses: {
+                input: "topcoat-text-input",
+                results: "topcoat-list__container",
+                listItem: "topcoat-list__item",
+                hover: 'custom-active'
+              }})
+        }
+    });
 
     React.render(
-      <ReactTypeahead.Typeahead
-        defaultValue="src"
-        options={req.response.split('\n')}
-        className="topcoat-list"
-        customClasses={{
-          input: "topcoat-text-input",
-          results: "topcoat-list__container",
-          listItem: "topcoat-list__item",
-          hover: 'custom-active'
-        }} />,
+      React.createElement(TestComponent, null),
       document.getElementById("typeahead")
     );
   };
